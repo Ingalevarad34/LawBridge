@@ -1,0 +1,44 @@
+name: lawbridge
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  flutter_carousel_widget: ^3.1.0
+  flutter_filterable_search: ^0.0.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/businessSetup.png
+    - assets/consultant.png
+    - assets/disputes.png
+    - assets/legalAdvice.png
+    - assets/slider.png
+    - assets/documentation.png
+    - assets/criminal.png
+    - assets/immigration.png
+    - assets/property.png
+    - assets/publicInterest.png
+    - assets/civil.png
+    - assets/corporate.png
+    - assets/ritika.png
+    - assets/simran.png
+    - assets/chetan.png
+    - assets/post.jpeg
+    - assets/tim.png
+    - assets/titus.png
+    - assets/soul.png
