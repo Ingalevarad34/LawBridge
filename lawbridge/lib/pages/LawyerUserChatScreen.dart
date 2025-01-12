@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:lawbridge/pages/VideoScreen.dart';
 
 class Lawyeruserchatscreen extends StatelessWidget {
   String name;
+
   Lawyeruserchatscreen({required this.name});
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => BottomSheetContent(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +58,10 @@ class Lawyeruserchatscreen extends StatelessWidget {
                 color: Colors.black), // Video call icon
             onPressed: () {
               print("Video call button tapped");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => VideoCallScreen()),
+              );
             },
           ),
           IconButton(
@@ -167,6 +185,7 @@ class Lawyeruserchatscreen extends StatelessWidget {
                   icon: const Icon(Icons.attach_file, color: Colors.grey),
                   onPressed: () {
                     print("Attach button tapped");
+                    _showBottomSheet(context);
                   },
                 ),
                 IconButton(
@@ -179,6 +198,109 @@ class Lawyeruserchatscreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+//Bottom sheet
+
+// class HomePage extends StatelessWidget {
+//   void _showBottomSheet(BuildContext context) {
+//     showModalBottomSheet(
+//       context: context,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+//       ),
+//       builder: (context) => BottomSheetContent(),
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('WhatsApp Bottom Sheet'),
+//         backgroundColor: Colors.teal,
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () => _showBottomSheet(context),
+//           child: Text('Open Bottom Sheet'),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class BottomSheetContent extends StatelessWidget {
+  final List<Map<String, dynamic>> items = [
+    {
+      'icon': Icons.insert_drive_file,
+      'label': 'Document',
+      'action': 'document'
+    },
+    {'icon': Icons.camera_alt, 'label': 'Camera', 'action': 'camera'},
+    {'icon': Icons.photo, 'label': 'Gallery', 'action': 'gallery'},
+    {'icon': Icons.audiotrack, 'label': 'Audio', 'action': 'audio'},
+    {'icon': Icons.location_on, 'label': 'Location', 'action': 'location'},
+    {'icon': Icons.payment, 'label': 'Payments', 'action': 'payments'},
+    {'icon': Icons.person, 'label': 'Contact', 'action': 'contact'},
+  ];
+
+  Future<void> _pickDocument(BuildContext context) async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+      );
+
+      if (result != null) {
+        final file = result.files.first;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Selected file: ${file.name}')),
+        );
+      } else {
+        // User canceled the picker
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('File picking canceled')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error picking file: $e')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Wrap(
+        children: items.map((item) {
+          return GestureDetector(
+            onTap: () {
+              if (item['action'] == 'document') {
+                _pickDocument(context);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.teal.withOpacity(0.1),
+                    child: Icon(item['icon'], color: Colors.teal, size: 30),
+                  ),
+                  SizedBox(height: 8),
+                  Text(item['label'], style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

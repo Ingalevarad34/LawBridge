@@ -12,6 +12,8 @@ dependencies:
   get: ^4.6.6
   flutter_carousel_widget: ^3.1.0
   flutter_filterable_search: ^0.0.1
+  file_picker: ^5.3.0
+  flutter_webrtc: ^0.12.5+hotfix.2
 
 
 dev_dependencies:
